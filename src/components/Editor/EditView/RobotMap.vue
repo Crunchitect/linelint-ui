@@ -43,13 +43,14 @@ const updateFile = function (evt: Event) {
 
 const onDrag = (e: OnDrag, item: string) => {
     const [x, y, _, _2] = e.translate;
+    const { width: elWidth, height: elHeight } = e.target.getBoundingClientRect() ?? new DOMRect();
     const [ width, height ] = dimensions.value ?? [0, 0];
     const { left, right, top, bottom, width: cwidth, height: cheight } = mapCanvas.value?.getBoundingClientRect() ?? new DOMRect();
     const clamped_x = Math.min(Math.max(x, left), right);
     const clamped_y = Math.min(Math.max(y, top), bottom);
     e.target.style.transform = `translate(${clamped_x}px, ${clamped_y}px)`;
-    const tuned_x = (clamped_x - left) / cwidth * width;
-    const tuned_y = (clamped_y - top) / cheight * height;
+    const tuned_x = (clamped_x - left + elWidth / 2) / cwidth * width;
+    const tuned_y = (clamped_y - top + elHeight / 2) / cheight * height;
 
     switch (item) {
         case 'start':
@@ -70,12 +71,12 @@ const onDrag = (e: OnDrag, item: string) => {
         <canvas ref="mapCanvas" v-show="hasFile"
             class="rounded border-black border-2 max-w-[50vw] max-h[50vh]"></canvas>
         <div id="start" v-show="hasFile">
-            <i class="fa-solid fa-location-crosshairs text-[3vw] absolute top-0 left-0 text-cyan-400"
+            <i class="fa-solid fa-location-crosshairs text-[3vmin] absolute top-0 left-0 text-cyan-400"
                 ref="startEl"></i>
             <Moveable :target="startEl" :draggable="true" :origin="false" :hide-default-lines="true" @drag="e => onDrag(e, 'start')"/>
         </div>
         <div id="end" v-show="hasFile">
-            <i class="fa-solid fa-flag-checkered text-[3vw] absolute top-0 left-0"
+            <i class="fa-solid fa-flag-checkered text-[3vmin] absolute top-0 left-0"
                 ref="endEl"></i>
             <Moveable :target="endEl" :draggable="true" :origin="false" :hide-default-lines="true" @drag="e => onDrag(e, 'finish')" />
         </div>
