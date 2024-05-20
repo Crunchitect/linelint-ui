@@ -5,6 +5,7 @@ import { Tabs } from '@/lib/types';
 import RobotMap from './EditView/RobotMap.vue';
 import FirstVisit from './EditView/FirstVisit.vue';
 import Sensors from './EditView/Sensors.vue';
+import Junctions from './EditView/Junctions.vue';
 import NotSupported from './EditView/NotSupported.vue';
 
 const tabStr = <string><unknown>selectedTab;
@@ -15,6 +16,7 @@ const tabStr = <string><unknown>selectedTab;
         <FirstVisit v-if="tabStr == ''" />
         <RobotMap v-else-if="tabStr == 'RobotMap'" />
         <Sensors v-else-if="tabStr == 'Sensors'" />
+        <Junctions v-else-if="tabStr == 'Junctions'" />
         <NotSupported v-else />
     </KeepAlive>
 </template>

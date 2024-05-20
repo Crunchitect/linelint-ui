@@ -1,3 +1,5 @@
+import { sensorData } from "@/state/Editor";
+
 export function calcSensor(refs: {[k: string]: HTMLElement | HTMLElement[]}, scale: [number, number]) {
     const sensorLocations = [];
     
@@ -36,8 +38,8 @@ export function calcSensor(refs: {[k: string]: HTMLElement | HTMLElement[]}, sca
         
         const sensorNormalizedX = sensorRotatedX / canvasBBox.width * scale[0];
         const sensorNormalizedY = sensorRotatedY / canvasBBox.height * scale[1];
-        sensorLocations.push([sensorNormalizedX, sensorNormalizedY]);
+        sensorLocations.push(<[number, number]>[sensorNormalizedX, sensorNormalizedY]);
     }
-    console.log(sensorLocations);
+    sensorData.value = sensorLocations;
     return sensorLocations;
 }
