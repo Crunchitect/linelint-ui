@@ -2,6 +2,8 @@
 import { ref } from 'vue';
 import Moveable, { type OnDrag } from 'vue3-moveable';
 import { dimensions, startPos, endPos, imageFile } from '@/state/Editor';
+import { reshapeBytes, toBinaryImage, getClosestBlackPixel } from '@/lib/imageproc';
+import { AStarFinder } from 'astar-typescript';
 
 const hasFile = ref(false);
 const mapCanvas = ref(null as null | HTMLCanvasElement);
@@ -60,11 +62,31 @@ const onDrag = (e: OnDrag, item: string) => {
             break;
     }
 };
+
+const generatePath = () => {
+    const context = mapCanvas.value?.getContext("2d", {willReadFrequently: true})!;
+    const imgData = context.getImageData(0, 0, context.canvas.width, context.canvas.height);
+    const imgArray = toBinaryImage(reshapeBytes(imgData.data, imgData.width, imgData.height));
+    const aStarInstance = new AStarFinder({
+        grid: {
+            matrix: imgArray
+        },
+        diagonalAllowed: false
+    });
+    if (!startPos.value || !endPos.value) return;
+    const start = getClosestBlackPixel(imgArray, ...startPos.value);
+    const end = getClosestBlackPixel(imgArray, ...endPos.value);
+    const path = aStarInstance.findPath(
+        {x: start[0], y: start[1]},
+        {x: end[0], y: end[1]},
+    );
+    console.log(path);
+};
 </script>
 
 
 <template>
-    <div class="rounded w-full h-[95%] bg-slate-100 flex flex-wrap place-content-center">
+    <div class="rounded w-full h-[90%] bg-slate-100 flex flex-wrap place-content-center">
         <input type="file" class="w-full h-full opacity-0 z-50 absolute" v-if="!hasFile" @change="updateFile"
             @click.prevent>
         <canvas ref="mapCanvas" v-show="hasFile"
@@ -84,4 +106,7 @@ const onDrag = (e: OnDrag, item: string) => {
             <p class="font-bold text-center opacity-30">Upload your map here.</p>
         </div>
     </div>
+    <button class="w-full h-[5%] bg-slate-100" @click="generatePath">
+        <i class="fa-solid fa-map-location-dot"></i> Generate Path
+    </button>
 </template>

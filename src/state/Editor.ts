@@ -8,7 +8,7 @@ export const startPos = ref<Vec2D | null>(null);
 export const endPos = ref<Vec2D | null>(null);
 export const dimensions = ref<Vec2D | null>(null);
 
-export const sensorGray = ref<number>(0);
+export const sensorGray = ref<number>(500);
 export const sensorData = ref<[number, number][]>();
 
 export const junctionData = ref<[string, FixedLengthArray<boolean, 5>][]>([

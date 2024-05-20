@@ -86,28 +86,26 @@ onMounted(updateCanvas);
 </script>
 
 <template>
-    <div class="flex flex-col w-full h-[95%]">
-        <div class="rounded w-full h-[97%] bg-slate-100 flex flex-wrap place-content-center">
-            <canvas v-show="hasFile" ref="sensorCanvas"
-                class="rounded border-2 border-black min-w-[30vw] max-w-[80vw] min-h-[30vh] max-h-[80vh] w-auto h-auto"></canvas>
-        
-            <div class="flex flex-col flex-wrap place-content-center" v-if="!hasFile">
-                <i class="fa-solid fa-circle-xmark text-[10vw] text-center opacity-30"></i>
-                <p class="font-bold text-center opacity-30">Oops! You haven't add a map yet, Please go to the Map section!
-            </p>
-            </div>
+    <div class="rounded w-full h-[95%] bg-slate-100 flex flex-wrap place-content-center">
+        <canvas v-show="hasFile" ref="sensorCanvas"
+            class="rounded border-2 border-black min-w-[30vw] max-w-[80vw] min-h-[30vh] max-h-[80vh] w-auto h-auto"></canvas>
+    
+        <div class="flex flex-col flex-wrap place-content-center" v-if="!hasFile">
+            <i class="fa-solid fa-circle-xmark text-[10vw] text-center opacity-30"></i>
+            <p class="font-bold text-center opacity-30">Oops! You haven't add a map yet, Please go to the Map section!
+        </p>
         </div>
-        <div class="flex items-center justify-between w-full h-[5%]" v-if="hasFile">
-            <div class="flex">
-                <p class="font-bold">Scale: </p>
-                <input class="rounded outline-none border-stone-400 w-14 text-right" type="number" step="0.1" v-model="zoom">
-                <p class="font-bold">x</p>
-            </div>
-            <div class="flex">
-                <p class="font-bold">Sensor Value for Gray: </p>
-                <input class="rounded outline-none border-stone-400 w-14 text-right" type="number" step="0.1" v-model="sensorGray">
-                <p class="font-bold">v</p>
-            </div>
+    </div>
+    <div class="flex items-center justify-between w-full h-[5%]" v-if="hasFile">
+        <div class="flex">
+            <p class="font-bold">Scale: </p>
+            <input class="rounded outline-none border-stone-400 w-14 text-right" type="number" step="0.1" v-model="zoom">
+            <p class="font-bold">x</p>
+        </div>
+        <div class="flex">
+            <p class="font-bold">Sensor Value for Gray: </p>
+            <input class="rounded outline-none border-stone-400 w-14 text-right" type="number" step="0.1" v-model="sensorGray">
+            <p class="font-bold">v</p>
         </div>
     </div>
     <div v-if="hasFile && updatedCanvas">
@@ -116,7 +114,7 @@ onMounted(updateCanvas);
             :bounds="sensorCanvas?.getBoundingClientRect()" :draggable="true" :rotatable="true" :snappable="true"
             :origin="false" :snapRotataionThreshold="15" :snapRotationDegrees="[0, 90, 180, 270]"
             :snapDirections="{ middle: true, center: true }" :verticalGuidelines="getVertGuidelines()"
-            :horizontalGuidelines="getHorzGuidelines()" @drag="move" @rotate="move" @render="calcSensor($refs, sensorCanvasDimensions)" />
+            :horizontalGuidelines="getHorzGuidelines()" @drag="move" @rotate="move" @render="calcSensor(<any>$refs, <[number, number]>sensorCanvasDimensions)" />
     </div>
     <div v-if="hasFile && updatedCanvas" v-for="(item, index) in ['one', 'two', 'three', 'four', 'five']">
         <span class="fa-stack fa-sm absolute top-1/2 left-1/2" :ref="`sensor-${index}`">
@@ -129,7 +127,7 @@ onMounted(updateCanvas);
             :origin="false" :snapRotataionThreshold="15" :snapRotationDegrees="[0, 90, 180, 270]"
             :snapDirections="{ middle: true, center: true }" :verticalGuidelines="getVertGuidelines()"
             :horizontalGuidelines="getHorzGuidelines()" :elementGuidelines="<MoveableRefType[]><unknown>$refs"
-            @drag="move" @rotate="move" @render="calcSensor($refs, sensorCanvasDimensions)" />
+            @drag="move" @rotate="move" @render="calcSensor(<any>$refs, <[number, number]>sensorCanvasDimensions)" />
     </div>
     <KeyModel :keyCode="16" v-model="shiftPressed" />
 </template>
