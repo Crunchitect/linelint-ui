@@ -27,7 +27,6 @@ const updateFile = function (evt: Event) {
                     dimensions.value = [img.width, img.height]
                     context!.drawImage(img, 0, 0);
                     const { left, top } = mapCanvas.value?.getBoundingClientRect() ?? new DOMRect();
-                    console.log(left, top);
                     startEl.value!.style.transform = `translate(${left}px, ${top}px`;
                     endEl.value!.style.transform = `translate(${left}px, ${top}px)`;
                 };
@@ -69,7 +68,7 @@ const onDrag = (e: OnDrag, item: string) => {
         <input type="file" class="w-full h-full opacity-0 z-50 absolute" v-if="!hasFile" @change="updateFile"
             @click.prevent>
         <canvas ref="mapCanvas" v-show="hasFile"
-            class="rounded border-black border-2 max-w-[50vw] max-h[50vh]"></canvas>
+            class="rounded border-black border-2 max-w-[50vmin] max-h[50vmin]"></canvas>
         <div id="start" v-show="hasFile">
             <i class="fa-solid fa-location-crosshairs text-[3vmin] absolute top-0 left-0 text-cyan-400"
                 ref="startEl"></i>
