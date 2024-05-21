@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import Moveable, { type OnDrag } from 'vue3-moveable';
-import { dimensions, startPos, endPos, imageFile } from '@/state/Editor';
+import { dimensions, startPos, endPos, imageFile, sensorData, junctionData } from '@/state/Editor';
 import { reshapeBytes, toBinaryImage, getClosestBlackPixel } from '@/lib/imageproc';
 import { AStarFinder } from 'astar-typescript';
 
@@ -80,7 +80,12 @@ const generatePath = () => {
         {x: start[0], y: start[1]},
         {x: end[0], y: end[1]},
     );
-    console.log(path);
+
+    const currentJunction = ref('');
+
+    path.forEach(location => {
+        
+    });
 };
 </script>
 
