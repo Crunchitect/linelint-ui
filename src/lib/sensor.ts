@@ -36,8 +36,8 @@ export function calcSensor(refs: {[k: string]: HTMLElement | HTMLElement[]}, sca
         const sensorRotatedX = (Math.cos(-originR) * (sensorX - originX)) - (Math.sin(-originR) * (sensorY - originY));
         const sensorRotatedY = (Math.sin(-originR) * (sensorX - originX)) + (Math.cos(-originR) * (sensorY - originY));
         
-        const sensorNormalizedX = sensorRotatedX / canvasBBox.width * scale[0];
-        const sensorNormalizedY = sensorRotatedY / canvasBBox.height * scale[1];
+        const sensorNormalizedX = Math.floor(sensorRotatedX / canvasBBox.width * scale[0]  / 10) * 10;
+        const sensorNormalizedY = Math.floor(sensorRotatedY / canvasBBox.height * scale[1] / 10) * 10;
         sensorLocations.push(<[number, number]>[sensorNormalizedX, sensorNormalizedY]);
     }
     sensorData.value = sensorLocations;

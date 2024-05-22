@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import Moveable, { type OnDrag } from 'vue3-moveable';
 import { dimensions, startPos, endPos, imageFile, sensorData, junctionData } from '@/state/Editor';
 import { reshapeBytes, toBinaryImage, getClosestBlackPixel } from '@/lib/imageproc';
 import { AStarFinder } from 'astar-typescript';
+import { generatePathWithJunctions } from '@/lib/gen';
 
 const hasFile = ref(false);
 const mapCanvas = ref(null as null | HTMLCanvasElement);
@@ -63,7 +64,7 @@ const onDrag = (e: OnDrag, item: string) => {
     }
 };
 
-const generatePath = () => {
+const _generatePath = () => {
     const context = mapCanvas.value?.getContext("2d", {willReadFrequently: true})!;
     const imgData = context.getImageData(0, 0, context.canvas.width, context.canvas.height);
     const imgArray = toBinaryImage(reshapeBytes(imgData.data, imgData.width, imgData.height));
@@ -81,11 +82,16 @@ const generatePath = () => {
         {x: end[0], y: end[1]},
     );
 
-    const currentJunction = ref('');
+    const pathWithJunctions = generatePathWithJunctions(<[number, number][]>path, imgArray);
+    
+    debugger;
+};
 
-    path.forEach(location => {
-        
-    });
+const generatePath = () => {
+    const context = mapCanvas.value?.getContext("2d", {willReadFrequently: true})!;
+    const imgData = context.getImageData(0, 0, context.canvas.width, context.canvas.height);
+    const imgArray = toBinaryImage(reshapeBytes(imgData.data, imgData.width, imgData.height));
+    
 };
 </script>
 

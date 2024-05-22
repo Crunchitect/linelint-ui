@@ -20,7 +20,7 @@
         <div class="flex flex-row w-4/5 items-center justify-between" v-for="(_, index) in junctionData" :key="index" >
             <input class="rounded outline-none text-xl" type="text" v-model="junctionData[index][0]" @change="camelize">
             <div class="flex rounded border-black border-2">
-                <input type="checkbox" class="appearance-none border-black bg-black checked:bg-white w-10 h-10"
+                <input type="checkbox" class="appearance-none border-black bg-black before:content-['0'] checked:bg-white checked:before:content-['1'] w-10 h-10 text-center align-middle font-bold text-white checked:text-black"
                 v-for="(_, sensorIndex) in junctionData[index][1]" 
                 v-model="(junctionData[index][1])[sensorIndex]">
             </div>

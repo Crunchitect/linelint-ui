@@ -116,9 +116,9 @@ onMounted(updateCanvas);
             :snapDirections="{ middle: true, center: true }" :verticalGuidelines="getVertGuidelines()"
             :horizontalGuidelines="getHorzGuidelines()" @drag="move" @rotate="move" @render="calcSensor(<any>$refs, <[number, number]>sensorCanvasDimensions)" />
     </div>
-    <div v-if="hasFile && updatedCanvas" v-for="(item, index) in ['one', 'two', 'three', 'four', 'five']">
+    <div v-if="hasFile && updatedCanvas" v-for="index in [...Array(5).keys()]">
         <span class="fa-stack fa-sm absolute top-1/2 left-1/2" :ref="`sensor-${index}`">
-            <i :class="`fa-solid fa-dice-${item} fa-stack-2x`" v-if="shiftPressed"></i>
+            <div class="w-7 h-7 rounded bg-black text-white mx-1 font-bold text-center" v-if="shiftPressed">{{ index }}</div>
             <i :class="`fa-solid fa-square fa-stack-2x`" v-else></i>
             <i class="fa-solid fa-code-fork fa-stack-1x text-white " v-if="!shiftPressed"></i>
         </span>
@@ -126,7 +126,7 @@ onMounted(updateCanvas);
             :bounds="sensorCanvas?.getBoundingClientRect()" :draggable="true" :rotatable="true" :snappable="true"
             :origin="false" :snapRotataionThreshold="15" :snapRotationDegrees="[0, 90, 180, 270]"
             :snapDirections="{ middle: true, center: true }" :verticalGuidelines="getVertGuidelines()"
-            :horizontalGuidelines="getHorzGuidelines()" :elementGuidelines="<MoveableRefType[]><unknown>$refs"
+            :horizontalGuidelines="getHorzGuidelines()" :elementGuidelines="[robotOrigin]"
             @drag="move" @rotate="move" @render="calcSensor(<any>$refs, <[number, number]>sensorCanvasDimensions)" />
     </div>
     <KeyModel :keyCode="16" v-model="shiftPressed" />
