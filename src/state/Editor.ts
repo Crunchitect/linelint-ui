@@ -21,4 +21,6 @@ export const junctionData = ref<[string, FixedLengthArray<boolean, 5>][]>([
 
 export const pathWithJunctions = ref<[string, string][]>([['', '']]);
 
+export const generatedCode = ref('');
+
 // watch(selectedTab, (val) => console.log(val));

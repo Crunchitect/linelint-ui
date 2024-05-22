@@ -3,9 +3,10 @@ export type BinaryImage = number[][];
 
 export enum Tabs {
     RobotMap = 'map',
-    Sensors = 'screwdriver-wrench',
+    // Sensors = 'screwdriver-wrench',
     Junctions = 'code-fork',
-    Options = 'gear'
+    Options = 'gear',
+    Code = 'code'
 }
 
 export type Vec2D = [number, number];

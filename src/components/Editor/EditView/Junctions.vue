@@ -1,6 +1,7 @@
 <script lang="ts" setup>
     import { toCamelCase } from '@/lib/textproc';
     import { junctionData } from '@/state/Editor';
+    import { watch } from 'vue';
 
     const camelize = () => junctionData.value.forEach(junction => {
             junction[0] = toCamelCase(junction[0]);
@@ -11,6 +12,10 @@
             ['junctionName', [true, true, true, true, true]]
         );
     };
+
+    watch(junctionData, () => {
+        // pol
+    });
 
 </script>
 

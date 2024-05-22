@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import Moveable, { type OnDrag } from 'vue3-moveable';
-import { dimensions, startPos, endPos, imageFile, sensorData, junctionData } from '@/state/Editor';
+import { dimensions, startPos, endPos, imageFile, sensorData, junctionData, generatedCode } from '@/state/Editor';
 import { reshapeBytes, toBinaryImage, getClosestBlackPixel } from '@/lib/imageproc';
 import { AStarFinder } from 'astar-typescript';
 import { generatePathWithJunctions } from '@/lib/gen';
@@ -87,11 +87,23 @@ const _generatePath = () => {
     debugger;
 };
 
-const generatePath = () => {
-    const context = mapCanvas.value?.getContext("2d", {willReadFrequently: true})!;
-    const imgData = context.getImageData(0, 0, context.canvas.width, context.canvas.height);
-    const imgArray = toBinaryImage(reshapeBytes(imgData.data, imgData.width, imgData.height));
+const generatePath = async () => {
+    const formData = new FormData();
+    formData.append('file', imageFile.value!);
+    const sx = Math.round(startPos?.value?.[0] ?? 0);
+    const sy = Math.round(startPos?.value?.[1] ?? 0);
+    const ex = Math.round(endPos?.value?.[0] ?? 0);
+    const ey = Math.round(endPos?.value?.[1] ?? 0);
+    await fetch(`https://naples-concern-which-mad.trycloudflare.com/config?sx=${sx}&sy=${sy}&ex=${ex}&ey=${ey}`);
     
+    await fetch('https://naples-concern-which-mad.trycloudflare.com/upload', {
+        mode: 'no-cors',
+        method: 'POST',
+        body: formData
+    });
+    const slug = await fetch('https://naples-concern-which-mad.trycloudflare.com/process');
+    generatedCode.value = await slug.text();
+    console.log(generatedCode.value);
 };
 </script>
 
