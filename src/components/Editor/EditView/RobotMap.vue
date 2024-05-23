@@ -94,14 +94,15 @@ const generatePath = async () => {
     const sy = Math.round(startPos?.value?.[1] ?? 0);
     const ex = Math.round(endPos?.value?.[0] ?? 0);
     const ey = Math.round(endPos?.value?.[1] ?? 0);
-    await fetch(`https://naples-concern-which-mad.trycloudflare.com/config?sx=${sx}&sy=${sy}&ex=${ex}&ey=${ey}`);
+    const serverLoc = import.meta.env.VITE_SERVER;
+    await fetch(`${serverLoc}/config?sx=${sx}&sy=${sy}&ex=${ex}&ey=${ey}`);
     
-    await fetch('https://naples-concern-which-mad.trycloudflare.com/upload', {
+    await fetch(`${serverLoc}/upload`, {
         mode: 'no-cors',
         method: 'POST',
         body: formData
     });
-    const slug = await fetch('https://naples-concern-which-mad.trycloudflare.com/process');
+    const slug = await fetch(`${serverLoc}/process`);
     generatedCode.value = await slug.text();
     console.log(generatedCode.value);
 };
