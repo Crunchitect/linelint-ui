@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@codemirror/lang-cpp": "^6.0.2",
+    "@uiw/codemirror-theme-darcula": "^4.22.1",
     "astar-typescript": "^1.2.7",
     "jszip": "^3.10.1",
     "thememirror": "^2.0.1",
